@@ -1,0 +1,70 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        (request.auth.token.email != null && request.auth.token.email == 'jessicaq2204@gmail.com')
+      );
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Properties collection
+    match /properties/{propertyId} {
+      allow get: if isValidId(propertyId) && (resource.data.status == 'published' || isAdmin());
+      allow list: if (resource.data.status == 'published' || isAdmin());
+      allow create, update, delete: if isValidId(propertyId) && isAdmin();
+    }
+
+    // Developments collection
+    match /developments/{developmentId} {
+      allow get: if isValidId(developmentId) && (resource.data.isPublished == true || isAdmin());
+      allow list: if (resource.data.isPublished == true || isAdmin());
+      allow create, update, delete: if isValidId(developmentId) && isAdmin();
+    }
+
+    // Landing pages collection
+    match /landingPages/{pageId} {
+      allow get: if isValidId(pageId) && (resource.data.isActive == true || isAdmin());
+      allow list: if (resource.data.isActive == true || isAdmin());
+      allow create, update, delete: if isValidId(pageId) && isAdmin();
+    }
+
+    // Leads collection
+    match /leads/{leadId} {
+      allow create: if isValidId(leadId) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        request.resource.data.name.size() <= 150 &&
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() > 0 &&
+        request.resource.data.phone.size() <= 50;
+      allow get, list, update, delete: if isValidId(leadId) && isAdmin();
+    }
+
+    // Site settings collection
+    match /siteSettings/{settingsId} {
+      allow get, list: if isValidId(settingsId);
+      allow write: if isValidId(settingsId) && isAdmin();
+    }
+
+    // Admin whitelist collection
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && isSignedIn() && (request.auth.uid == adminId || isAdmin());
+      allow list, write: if isValidId(adminId) && isAdmin();
+    }
+  }
+}

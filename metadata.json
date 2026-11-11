@@ -1,0 +1,6 @@
+{
+  "name": "Luiz Carlos Fraga - Consultor Imobiliário",
+  "description": "Site imobiliário premium e institucional de Luiz Carlos Fraga (CRECI 12234) em Olinda/PE. Venda, locação, administração e avaliação de imóveis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

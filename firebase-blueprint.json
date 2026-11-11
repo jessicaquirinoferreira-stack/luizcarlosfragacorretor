@@ -1,0 +1,170 @@
+{
+  "entities": {
+    "Property": {
+      "title": "Property",
+      "description": "Imóvel à venda ou locação cadastrado no sistema imobiliário",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "maxLength": 200 },
+        "code": { "type": "string", "maxLength": 50 },
+        "type": { "type": "string", "enum": ["apartamento", "casa", "cobertura", "terreno", "comercial", "outro"] },
+        "transactionType": { "type": "string", "enum": ["venda", "locacao"] },
+        "price": { "type": "number" },
+        "condoFee": { "type": "number" },
+        "iptuFee": { "type": "number" },
+        "neighborhood": { "type": "string", "maxLength": 100 },
+        "city": { "type": "string", "maxLength": 100 },
+        "state": { "type": "string", "maxLength": 10 },
+        "addressPrivate": { "type": "string", "maxLength": 300 },
+        "areaM2": { "type": "number" },
+        "bedrooms": { "type": "number" },
+        "suites": { "type": "number" },
+        "bathrooms": { "type": "number" },
+        "parkingSpots": { "type": "number" },
+        "description": { "type": "string", "maxLength": 5000 },
+        "features": { "type": "array" },
+        "images": { "type": "array" },
+        "videoUrl": { "type": "string", "maxLength": 500 },
+        "isFeatured": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["published", "draft", "sold", "rented"] },
+        "developmentId": { "type": "string", "maxLength": 128 },
+        "pendingConfirmation": { "type": "boolean" },
+        "viewsCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "slug", "transactionType", "neighborhood", "city", "status"]
+    },
+    "Development": {
+      "title": "Development",
+      "description": "Empreendimento, prédio, condomínio ou lançamento em Olinda/PE",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "maxLength": 200 },
+        "code": { "type": "string", "maxLength": 50 },
+        "neighborhood": { "type": "string", "maxLength": 100 },
+        "city": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["lancamento", "em_construcao", "pronto_para_morar", "entregue"] },
+        "startingPrice": { "type": "number" },
+        "condoFee": { "type": "number" },
+        "description": { "type": "string", "maxLength": 5000 },
+        "features": { "type": "array" },
+        "unitsAvailable": { "type": "number" },
+        "images": { "type": "array" },
+        "videoUrl": { "type": "string", "maxLength": 500 },
+        "isFeatured": { "type": "boolean" },
+        "pendingConfirmation": { "type": "boolean" },
+        "isPublished": { "type": "boolean" },
+        "viewsCount": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "slug", "neighborhood", "city", "status"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Solicitação de contato, agendamento de visita ou proposta de cliente",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "email": { "type": "string", "maxLength": 150 },
+        "interestType": { "type": "string", "maxLength": 50 },
+        "propertyId": { "type": "string", "maxLength": 128 },
+        "propertyTitle": { "type": "string", "maxLength": 200 },
+        "developmentId": { "type": "string", "maxLength": 128 },
+        "developmentName": { "type": "string", "maxLength": 200 },
+        "preferredDate": { "type": "string", "maxLength": 50 },
+        "preferredTime": { "type": "string", "maxLength": 50 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "utmSource": { "type": "string", "maxLength": 100 },
+        "utmMedium": { "type": "string", "maxLength": 100 },
+        "utmCampaign": { "type": "string", "maxLength": 100 },
+        "originPage": { "type": "string", "maxLength": 200 },
+        "status": { "type": "string", "enum": ["novo", "em_atendimento", "visita_solicitada", "visita_confirmada", "aguardando_retorno", "proposta", "convertido", "nao_convertido"] },
+        "notes": { "type": "string", "maxLength": 3000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "phone", "status", "createdAt"]
+    },
+    "LandingPage": {
+      "title": "LandingPage",
+      "description": "Página de campanha ou oportunidade com link pronto para redes sociais",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "slug": { "type": "string", "maxLength": 200 },
+        "subtitle": { "type": "string", "maxLength": 300 },
+        "heroImage": { "type": "string", "maxLength": 1000 },
+        "targetType": { "type": "string", "enum": ["property", "development", "custom"] },
+        "targetId": { "type": "string", "maxLength": 128 },
+        "customPrice": { "type": "string", "maxLength": 100 },
+        "highlightPoints": { "type": "array" },
+        "description": { "type": "string", "maxLength": 5000 },
+        "images": { "type": "array" },
+        "whatsappCustomMessage": { "type": "string", "maxLength": 500 },
+        "isActive": { "type": "boolean" },
+        "viewsCount": { "type": "number" },
+        "leadsCount": { "type": "number" },
+        "utmPreset": { "type": "object" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "slug", "isActive"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Configurações institucionais, identidade visual e dados de contato",
+      "type": "object",
+      "properties": {
+        "brokerName": { "type": "string", "maxLength": 100 },
+        "creci": { "type": "string", "maxLength": 50 },
+        "bio": { "type": "string", "maxLength": 2000 },
+        "address": { "type": "string", "maxLength": 300 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "whatsapp": { "type": "string", "maxLength": 50 },
+        "instagram": { "type": "string", "maxLength": 200 },
+        "instagramUser": { "type": "string", "maxLength": 100 },
+        "primaryColor": { "type": "string", "maxLength": 30 },
+        "secondaryColor": { "type": "string", "maxLength": 30 },
+        "heroTitle": { "type": "string", "maxLength": 250 },
+        "heroSubtitle": { "type": "string", "maxLength": 500 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["brokerName", "creci", "whatsapp"]
+    }
+  },
+  "firestore": {
+    "/properties/{propertyId}": {
+      "schema": { "$ref": "#/entities/Property" },
+      "description": "Coleção de imóveis à venda e para alugar"
+    },
+    "/developments/{developmentId}": {
+      "schema": { "$ref": "#/entities/Development" },
+      "description": "Coleção de empreendimentos e condomínios"
+    },
+    "/leads/{leadId}": {
+      "schema": { "$ref": "#/entities/Lead" },
+      "description": "Solicitações de contato e agendamentos"
+    },
+    "/landingPages/{pageId}": {
+      "schema": { "$ref": "#/entities/LandingPage" },
+      "description": "Landing pages para campanhas e links sociais"
+    },
+    "/siteSettings/{settingsId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Configurações institucionais do corretor e do site"
+    },
+    "/admins/{adminId}": {
+      "schema": "object",
+      "description": "Usuários autorizados no painel administrativo"
+    }
+  }
+}
